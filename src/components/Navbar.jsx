@@ -9,7 +9,7 @@ export default function Navbar()
                 <div className="navbar-links">
                     <Link  to="/" 
                     className="navbar-link" >Home</Link>
-                    <Link  to="/Checkout" 
+                    <Link  to="/checkout" 
                     className="navbar-link">Cart</Link>
                 </div>
                 <div className="navbar-auth">
