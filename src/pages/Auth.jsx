@@ -1,6 +1,6 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Auth()
@@ -10,7 +10,7 @@ export default function Auth()
     const {register,handleSubmit,formState:{errors}} = useForm();
     const navigate = useNavigate()
 
-    const {signUp ,user,login,logout }=useContext(AuthContext)
+    const {login, signUp} = useAuth();
 
         function onsubmit(data)
         {
@@ -21,7 +21,6 @@ export default function Auth()
             }else{
                 result =login(data.email,data.password)
             }
-            console.log(result);
             if(result.success)
             {
                 navigate("/")
@@ -35,9 +34,7 @@ export default function Auth()
         
         <div className="page">
             <div className="container">
-                {user && <p>{user.email} logged in</p>}
                 <div className="auth-container">
-                    <button onClick={()=>logout()}>logout</button>
                     <h1 className="page-title">
                         {mode==="signup"?"Sign Up":"login"}</h1>
                     <form  className="auth-form " onSubmit={handleSubmit(onsubmit)}>
@@ -55,13 +52,14 @@ export default function Auth()
                             required:"password is required",
                             minLength:{
                                 value:6,
-                                message:"Password must be atleast 6 characters"},
+                                message:"Password must be at least 6or 12 characters"},
                             maxLength:{
                                 value:12,
                                 message:"Password must be less than 12 characters"}
                         })}
                         />
-                                            {errors.password && <span className="form-error">{errors.password.message}</span>}
+                    {errors.password && <span className="form-error">{errors.password.message}</span>}
+
                     </div>
 
                     <button type="submit" className="btn btn-primary
@@ -69,11 +67,9 @@ export default function Auth()
                     </form>
                     { mode==="signup"?
                     (<p className="auth-switch">
-                        Already have an Account <span className="auth-link" onClick={()=>setMode("login")}>login</span></p>)
-                    :
-                    (<p className="auth-switch"
-                    >
-                        Dont't have a Account <span className="auth-link" onClick={()=>setMode("signup")}>Sign up</span></p>)}
+            Already have an Account!  <span className="auth-link" onClick={()=>setMode("login")}>login</span></p>)
+                    :(<p className="auth-switch">Dont't have a Account? 
+                    <span className="auth-link" onClick={()=>setMode("signup")}>  Sign up</span></p>)}
                 </div>
             </div>
 

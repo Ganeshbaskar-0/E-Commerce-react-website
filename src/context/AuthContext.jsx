@@ -1,11 +1,11 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
-export const AuthContext = createContext(null);
-const AuthProvider = ({children}) => {
+const AuthContext = createContext(null);
+export default function AuthProvider({children}){
 
     const [user,setUser] = useState(
         localStorage.getItem("currentUserEmail")
-        ?{email:localStorage.getItem("currenUserEmail")}:
+        ?{email:localStorage.getItem("currentUserEmail")}:
     null
     );
 
@@ -37,9 +37,9 @@ function login(email,password)
     {
         return {success:false,error:"Invalid username or password"}
     }
+    setUser(user)
+    localStorage.setItem("currentUserEmail",user.email)
 
-    localStorage.setItem("currentuserEmail",email)
-    setUser(email)
     return {success:true}
 }
 
@@ -58,4 +58,10 @@ function logout()
   )
 }
 
-export default AuthProvider
+ AuthProvider
+
+export function useAuth()
+{
+    const context = useContext(AuthContext)
+    return context;
+}
