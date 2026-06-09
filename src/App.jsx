@@ -7,12 +7,14 @@ import Checkout from "./pages/Checkout"
 import Navbar from "./components/Navbar"
 import AuthProvider from "./context/AuthContext"
 import ProductDetails from "./pages/ProductDetails"
+import CartProvider from "./context/CartContext"
 
 export default function App()
 {
     return (
         <div className="App">
             <AuthProvider>
+            <CartProvider>
             <Navbar/>
             <Routes>
                 <Route  path="/" element={<Home />}/>
@@ -20,6 +22,7 @@ export default function App()
                 <Route  path="/checkout" element={<Checkout />}/>
                 <Route  path="/product/:id" element={<ProductDetails />}/>
             </Routes>
+            </CartProvider>
             </AuthProvider>
 
         </div>
